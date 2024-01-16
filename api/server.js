@@ -1,9 +1,14 @@
 import express from "express";
-import dotenv from 'dotenv';
-const port = 5000
-
 const app = express();
 
-app.listen(port,()=>{
+
+import mongoose from "./helpers/mongoConnect";
+// import dotenv from 'dotenv';
+import('dotenv').config()
+
+const vhost = import('vhost')
+
+
+app.listen(process.env.PORT,()=>{
     console.log('server started')
 })
