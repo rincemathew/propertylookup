@@ -1,6 +1,6 @@
 import express from "express";
 import connectToMongoDB from "./helpers/mongoConnect.js";
-import userRouter from './routes/userRoute.js'
+import userRouter from './routes/user.route.js'
 const app = express();
 
 
@@ -9,6 +9,8 @@ dotenv.config();
 
 import vhost from "vhost";
 
+
+app.use(express.json())
 
 app.use(express.static('public'))
 
