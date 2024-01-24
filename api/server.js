@@ -2,6 +2,7 @@ import express from "express";
 import connectToMongoDB from "./helpers/mongoConnect.js";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import cors from "cors"
 const app = express();
 
 import dotenv from "dotenv";
@@ -25,12 +26,21 @@ app.listen(process.env.PORT, () => {
   console.log("server started");
 });
 
-app.use((err, req, next) => {
+app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
-  return resizeBy.status(statusCode).json({
+  return res.status(statusCode).json({
     success: false,
     statusCode,
     message,
   });
 });
+
+
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
