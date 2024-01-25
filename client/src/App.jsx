@@ -5,10 +5,13 @@ import { SignUp } from './pages/SignUp';
 import { About } from './pages/About';
 import { Profile } from './pages/Profile';
 import Header from './components/Header';
+import { ReactNotifications } from 'react-notifications-component'
 
 
 const App = () => {
   return (
+    <>
+    <ReactNotifications></ReactNotifications>
     <BrowserRouter>
     <Header></Header>
     <Routes>
@@ -19,6 +22,7 @@ const App = () => {
       <Route path='/profile' element={<Profile/>}/>
     </Routes>
     </BrowserRouter>
+    </>
   );
 };
 
