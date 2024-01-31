@@ -2,6 +2,7 @@ import express from "express";
 import connectToMongoDB from "./helpers/mongoConnect.js";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import listingRouter from './routes/listing.route.js';
 import cors from "cors"
 const app = express();
 import cookieParser from 'cookie-parser';
@@ -23,6 +24,7 @@ connectToMongoDB();
 //used vhost to create subdomains
 app.use(vhost("localhost", userRouter));
 app.use(vhost("localhost", authRouter));
+app.use('localhost/api/listing', listingRouter);
 // app.use(vhost(`admin.localhost`, adminRouter));
 
 app.listen(process.env.PORT, () => {
