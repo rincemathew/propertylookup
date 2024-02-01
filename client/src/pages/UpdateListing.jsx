@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getDownloadURL,
   getStorage,
@@ -7,12 +7,13 @@ import {
 } from 'firebase/storage';
 import { app } from '../firebase';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
-    const [files, setFiles] = useState([]);
+  const params = useParams();
+  const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: '',
@@ -31,7 +32,22 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(formData);
+
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+    };
+
+    fetchListing();
+  }, []);
+
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -91,6 +107,7 @@ export default function CreateListing() {
       imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
   };
+
   const handleChange = (e) => {
     if (e.target.id === 'sale' || e.target.id === 'rent') {
       setFormData({
@@ -131,7 +148,7 @@ export default function CreateListing() {
         return setError('Discount price must be lower than regular price');
       setLoading(true);
       setError(false);
-      const res = await fetch('/api/listing/create', {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,11 +169,10 @@ export default function CreateListing() {
       setLoading(false);
     }
   };
-
   return (
     <main className='p-3 max-w-4xl mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>
-        Create a Listing
+        Update a Listing
       </h1>
       <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
         <div className='flex flex-col gap-4 flex-1'>
@@ -191,26 +207,27 @@ export default function CreateListing() {
           />
           <div className='flex gap-6 flex-wrap'>
             <div className='flex gap-2'>
-            <input
+              <input
                 type='checkbox'
                 id='sale'
                 className='w-5'
                 onChange={handleChange}
                 checked={formData.type === 'sale'}
-              />              <span>Sell</span>
+              />
+              <span>Sell</span>
             </div>
             <div className='flex gap-2'>
-            <input
+              <input
                 type='checkbox'
                 id='rent'
                 className='w-5'
                 onChange={handleChange}
                 checked={formData.type === 'rent'}
-              />              
+              />
               <span>Rent</span>
             </div>
             <div className='flex gap-2'>
-            <input
+              <input
                 type='checkbox'
                 id='parking'
                 className='w-5'
@@ -220,24 +237,24 @@ export default function CreateListing() {
               <span>Parking spot</span>
             </div>
             <div className='flex gap-2'>
-            <input
+              <input
                 type='checkbox'
                 id='furnished'
                 className='w-5'
                 onChange={handleChange}
                 checked={formData.furnished}
               />
-                            <span>Furnished</span>
+              <span>Furnished</span>
             </div>
             <div className='flex gap-2'>
-            <input
+              <input
                 type='checkbox'
                 id='offer'
                 className='w-5'
                 onChange={handleChange}
                 checked={formData.offer}
               />
-                            <span>Offer</span>
+              <span>Offer</span>
             </div>
           </div>
           <div className='flex flex-wrap gap-6'>
@@ -307,7 +324,14 @@ export default function CreateListing() {
             )}
           </div>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex flex-col flex-1 gap-4'>
+          <p className='font-semibold'>
+            Images:
+            <span className='font-normal text-gray-600 ml-2'>
+              The first image will be the cover (max 6)
+            </span>
+          </p>
+          <div className='flex gap-4'>
             <input
               onChange={(e) => setFiles(e.target.files)}
               className='p-3 border border-gray-300 rounded w-full'
@@ -324,7 +348,8 @@ export default function CreateListing() {
             >
               {uploading ? 'Uploading...' : 'Upload'}
             </button>
-            <p className='text-red-700 text-sm'>
+          </div>
+          <p className='text-red-700 text-sm'>
             {imageUploadError && imageUploadError}
           </p>
           {formData.imageUrls.length > 0 &&
@@ -351,10 +376,10 @@ export default function CreateListing() {
             disabled={loading || uploading}
             className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
           >
-            {loading ? 'Creating...' : 'Create listing'}
+            {loading ? 'Creating...' : 'Update listing'}
           </button>
           {error && <p className='text-red-700 text-sm'>{error}</p>}
-          </div>
+        </div>
       </form>
     </main>
   );
