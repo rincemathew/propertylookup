@@ -1,8 +1,4 @@
-<!-- complete create listing 6.09 -->
-
-
-<!-- 8.05 add contact landload functionality to the listing page -->
-
+Realestate application
 
 
 localhost:5000
