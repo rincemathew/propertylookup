@@ -2,7 +2,9 @@
 
 function Footer() {
   return (
-    <div>Footer</div>
+      <footer className="bg-color-quaternary">
+      Footer
+      </footer>
   )
 }
 
