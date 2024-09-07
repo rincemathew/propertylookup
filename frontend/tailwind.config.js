@@ -15,6 +15,9 @@ export default {
         "color-secondary":"#9CDBA6",
         "color-tertiary":"#50B498",
         "color-quaternary":"#468585",
+      },container:{
+        center:true,
+        padding:".4rem"
       }
     },
   },
