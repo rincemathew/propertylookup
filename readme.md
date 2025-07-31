@@ -1,9 +1,9 @@
 Realestate application
 
+backend - nodemon dev
+localhost:3000
 
-localhost:5000
 
-
-frondend npm run dev
+/frondend npm run dev
 localhost:5173
 fdffd
