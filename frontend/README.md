@@ -16,5 +16,8 @@ dotenv
 
 user model
 
+created a test api route
+model folder for api route
+controller folder for api logic
 
 1:04:00
