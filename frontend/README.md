@@ -12,5 +12,9 @@ nodemon
 
 connect to mongodb
 install mongoose
+dotenv
 
-52:00
+user model
+
+
+1:04:00
