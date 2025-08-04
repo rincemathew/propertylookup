@@ -10,4 +10,7 @@ install express
 run server
 nodemon
 
-40:00
+connect to mongodb
+install mongoose
+
+52:00
