@@ -23,4 +23,6 @@ controller folder for api logic
 signup
 bcryptjs
 
+error middleware
+
 1:35:00-
