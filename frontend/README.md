@@ -24,5 +24,6 @@ signup
 bcryptjs
 
 error middleware
+external error handling (custom error)
 
-1:35:00-
+1:43:00-
