@@ -20,11 +20,16 @@ created a test api route
 model folder for api route
 controller folder for api logic
 
-signup
+signup api
 bcryptjs
 
 error middleware
 external error handling (custom error)
 
 signup page ui
+
+signin api
+jsonwebtoken jwt
+jwt store in cookie
+
 2:16:00-
