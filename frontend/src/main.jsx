@@ -4,13 +4,16 @@ import App from './App.jsx'
 import './index.css'
 import Footer from "./components/Footer"
 import Temp from './components/Temp'
-import {store} from './redux/store.js'
+import {persistor, store} from './redux/store.js'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
     <App />
     <Footer></Footer>
     <Temp></Temp>
+    </PersistGate>
   </Provider>,
 )

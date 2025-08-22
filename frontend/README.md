@@ -36,4 +36,6 @@ signin ui
 
 redux toolkit
 
+redux presist to store user data
+
 2:47:00-
