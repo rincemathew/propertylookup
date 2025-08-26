@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInstart, signInSuccess, signInFailure } from "../redux/user/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 function SignIn() {
   const [formData, setFormData] = useState({});   // ✅ fixed typo
@@ -68,6 +69,7 @@ function SignIn() {
           <button disabled={loading}>
             {loading ? "Loading..." : "Sign In"}
           </button>
+          <OAuth />
         </form>
   
         <div>

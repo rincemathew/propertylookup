@@ -38,4 +38,6 @@ redux toolkit
 
 redux presist to store user data
 
-2:47:00-
+google o auth
+
+3:00:00-
