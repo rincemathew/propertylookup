@@ -41,5 +41,5 @@ redux presist to store user data
 google o auth
 update header signin signout
 make profile page private
-
-3:28:00-
+createing profile page
+3:43:00-
