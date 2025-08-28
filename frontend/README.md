@@ -39,5 +39,7 @@ redux toolkit
 redux presist to store user data
 
 google o auth
+update header signin signout
+make profile page private
 
-3:00:00-
+3:28:00-

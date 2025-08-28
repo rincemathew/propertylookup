@@ -1,8 +1,10 @@
 // import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
@@ -13,15 +15,14 @@ const Header = () => {
           <div className="relative flex h-16 items-center justify-between border-b border-gray-200">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=500" alt="Your Company" />
+                <h1 className="text-2xl font-bold text-purple-600">Property Lookup</h1>
+                {/* <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=500" alt="Your Company" /> */}
               </div>
               {/* Links section */}
               <div className="hidden lg:ml-10 lg:block">
                 <div className="flex space-x-4">
-                  <a href="#" className="bg-gray-100 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Dashboard</a>
-                  <a href="#" className="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Jobs</a>
-                  <a href="#" className="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Applicants</a>
-                  <a href="#" className="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Company</a>
+                  <Link to='/' className="bg-gray-100 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Home</Link>
+                  <Link to='about' className="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">About</Link>
                 </div>
               </div>
             </div>
@@ -59,29 +60,44 @@ const Header = () => {
             {/* Actions section */}
             <div className="hidden lg:ml-4 lg:block">
               <div className="flex items-center">
-                <button type="button" className="flex-shrink-0 rounded-full bg-gray-50 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                {/* <button type="button" className="flex-shrink-0 rounded-full bg-gray-50 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500">
                   <span className="sr-only">View notifications</span>
                   <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                   </svg>
-                </button>
+                </button> */}
 
                 {/* Profile dropdown */}
-                <div className="relative ml-3">
+                {currentUser ? (
+                  <div className="relative ml-3">
                   <button type="button" className="flex rounded-full bg-gray-50 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500" onClick={() => setProfileMenuOpen(!profileMenuOpen)}>
                     <span className="sr-only">Open user menu</span>
-                    <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                    <img className="h-8 w-8 rounded-full" src={currentUser.rest.avatar || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"} alt={currentUser.rest.username} />
+                  </button>
+
+                  {profileMenuOpen && (
+                    <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="block px-4 py-2 text-sm text-gray-700">{currentUser.rest.username}</div>
+                      <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700">Your Profile</Link>
+                      <Link to='#' className="block py-2 px-4 text-sm text-gray-700">Sign out</Link>
+                    </div>
+                  )}
+                </div>
+                  ):(
+                    <div className="relative ml-3">
+                  <button type="button" className="flex rounded-full bg-gray-50 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500" onClick={() => setProfileMenuOpen(!profileMenuOpen)}>
+                    <span className="sr-only">Open user menu</span>
+                    <img className="h-8 w-8 rounded-full" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="" />
                   </button>
 
                   {profileMenuOpen && (
                     <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Link to="/sign-in" className="block px-4 py-2 text-sm text-gray-700">Sign In</Link>
-                      {/* <a href="#" className="block py-2 px-4 text-sm text-gray-700"></a> */}
-                      <a href="#" className="block py-2 px-4 text-sm text-gray-700">Settings</a>
-                      <a href="#" className="block py-2 px-4 text-sm text-gray-700">Sign out</a>
                     </div>
                   )}
                 </div>
+                  )}
+                
               </div>
             </div>
           </div>
@@ -91,29 +107,37 @@ const Header = () => {
         {menuOpen && (
           <div className="border-b border-gray-200 bg-gray-50 lg:hidden" id="mobile-menu">
             <div className="space-y-1 px-2 pt-2 pb-3">
-              <a href="#" className="bg-gray-100 block px-3 py-2 rounded-md font-medium text-gray-900">Dashboard</a>
-              <a href="#" className="hover:bg-gray-100 block px-3 py-2 rounded-md font-medium text-gray-900">Jobs</a>
-              <a href="#" className="hover:bg-gray-100 block px-3 py-2 rounded-md font-medium text-gray-900">Applicants</a>
-              <a href="#" className="hover:bg-gray-100 block px-3 py-2 rounded-md font-medium text-gray-900">Company</a>
+              <Link to='/' className="bg-gray-100 block px-3 py-2 rounded-md font-medium text-gray-900">Home</Link>
+              <Link to='about' className="hover:bg-gray-100 block px-3 py-2 rounded-md font-medium text-gray-900">About</Link>
             </div>
             <div className="border-t border-gray-200 pt-4 pb-3">
               <div className="flex items-center px-5">
-                <img className="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                <img className="h-10 w-10 rounded-full" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="" />
                 <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800">Tom Cook</div>
-                  <div className="text-sm font-medium text-gray-500">tom@example.com</div>
+                  {currentUser ?(
+                    <div>
+                   <div className="text-base font-medium text-gray-800">{currentUser.rest.username}</div>
+                  <div className="text-sm font-medium text-gray-500">{currentUser.rest.email}</div>
+                  </div>
+                  ):(<div></div>)}
+                  
                 </div>
-                <button type="button" className="ml-auto flex-shrink-0 rounded-full bg-gray-50 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                {/* <button type="button" className="ml-auto flex-shrink-0 rounded-full bg-gray-50 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500">
                   <span className="sr-only">View notifications</span>
                   <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                   </svg>
-                </button>
+                </button> */}
               </div>
               <div className="mt-3 space-y-1 px-2">
-                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Your Profile</a>
-                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Settings</a>
-                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Sign out</a>
+                {currentUser ? (
+                  <div>
+                  <Link to='profile' className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Your Profile</Link>
+                  <Link to='#' className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Sign out</Link>
+                  </div>
+                ):(
+                <Link to='sign-in' className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Settings</Link>
+                )}
               </div>
             </div>
           </div>
