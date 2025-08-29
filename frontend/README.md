@@ -42,4 +42,8 @@ google o auth
 update header signin signout
 make profile page private
 createing profile page
+
+upload image into firebases
+user update info api
+verify user if loged in using jwtoken (cookie-parser)
 3:43:00-
