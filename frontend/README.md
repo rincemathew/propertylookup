@@ -47,4 +47,7 @@ upload image into firebases
 user update info api
 verify user if loged in using jwtoken (cookie-parser)
 update user frontend
+
+delete user api
+delete user ui
 4:25:00-
