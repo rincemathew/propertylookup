@@ -2,9 +2,10 @@ import { useSelector } from "react-redux"
 import { useRef, useState, useEffect } from "react"
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { app } from "../firebase"
-import { updateUserStart, updateUserSucess, updateUserFailure } from "../redux/user/userSlice"
+import { updateUserStart, updateUserSucess, updateUserFailure, deleteUserStart
+, deleteUserSucess, deleteUserFailure, 
+signOutUserStart, signOutUserSucess, signOutUserFailure} from "../redux/user/userSlice"
 import { useDispatch } from "react-redux"
-import { set } from "mongoose"
 
 function Profile() {
     const {currentUser, loading, error} = useSelector((state)=>state.user)
@@ -85,6 +86,38 @@ function Profile() {
         }
     }
 
+    const handleDeleteUser = async()=>{
+      try {
+        dispatch(deleteUserStart())
+        const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+          method: "DELETE",
+      });
+      const data = await res.json();
+      if(data.success === false){
+        dispatch(deleteUserFailure(data.message))
+        return
+      }
+      dispatch(deleteUserSucess(data))
+      } catch (error) {
+        dispatch(deleteUserFailure(error.message))
+      }   
+    }
+
+    const handleSignOut = async()=>{
+      try {
+        dispatch(signOutUserStart())
+        const res = await fetch('/api/auth/signout')
+        const data = await res.json()
+        if(data.success === false){
+          dispatch(signOutUserFailure(data.message))
+          return
+        } 
+        dispatch(signOutUserSucess(data))
+      } catch (error) {
+        dispatch(signOutUserFailure(error.message))
+      }
+    }
+
     return (
       <>
         <h1>Profile page</h1>
@@ -122,11 +155,11 @@ function Profile() {
           <input onChange={handleChange} type="text" placeholder="username" defaultValue={currentUser.username} id="username" />
           <input onChange={handleChange} type="email" placeholder="email" defaultValue={currentUser.email} id="email" />
           <input onChange={handleChange}  type="password" placeholder="password" id="password" />
-          <button>{loading ? 'loading....': 'Update'}</button>
+          <button disabled={loading}>{loading ? 'loading....': 'Update'}</button>
         </form>
         <div>
-          <button disabled={loading}>Delete Account</button>
-          <button>Logout</button>
+          <button onClick={handleDeleteUser}>Delete Account</button>
+          <button onClick={handleSignOut}>Logout</button>
           <p>{error?error:""}</p>
           <p>{updateSucess?"Profile updated sucessfully":""}</p>
         </div>

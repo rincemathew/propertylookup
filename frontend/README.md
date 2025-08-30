@@ -50,4 +50,7 @@ update user frontend
 
 delete user api
 delete user ui
-4:25:00-
+
+signout api
+signout ui
+5:02:00-
