@@ -72,12 +72,12 @@ const Header = () => {
                   <div className="relative ml-3">
                   <button type="button" className="flex rounded-full bg-gray-50 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500" onClick={() => setProfileMenuOpen(!profileMenuOpen)}>
                     <span className="sr-only">Open user menu</span>
-                    <img className="h-8 w-8 rounded-full" src={currentUser.rest.avatar || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"} alt={currentUser.rest.username} />
+                    <img className="h-8 w-8 rounded-full" src={currentUser.avatar || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"} alt={currentUser.username} />
                   </button>
 
                   {profileMenuOpen && (
                     <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div className="block px-4 py-2 text-sm text-gray-700">{currentUser.rest.username}</div>
+                      <div className="block px-4 py-2 text-sm text-gray-700">{currentUser.username}</div>
                       <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700">Your Profile</Link>
                       <Link to='#' className="block py-2 px-4 text-sm text-gray-700">Sign out</Link>
                     </div>
@@ -116,8 +116,8 @@ const Header = () => {
                 <div className="ml-3">
                   {currentUser ?(
                     <div>
-                   <div className="text-base font-medium text-gray-800">{currentUser.rest.username}</div>
-                  <div className="text-sm font-medium text-gray-500">{currentUser.rest.email}</div>
+                   <div className="text-base font-medium text-gray-800">{currentUser.username}</div>
+                  <div className="text-sm font-medium text-gray-500">{currentUser.email}</div>
                   </div>
                   ):(<div></div>)}
                   
