@@ -2,14 +2,20 @@ import { useSelector } from "react-redux"
 import { useRef, useState, useEffect } from "react"
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { app } from "../firebase"
+import { updateUserStart, updateUserSucess, updateUserFailure } from "../redux/user/userSlice"
+import { useDispatch } from "react-redux"
+import { set } from "mongoose"
 
 function Profile() {
-    const {currentUser} = useSelector((state)=>state.user)
+    const {currentUser, loading, error} = useSelector((state)=>state.user)
     const fileRef = useRef(null)
     const [file, setFile] = useState(undefined);
     const [filePercent, setFilePercent] = useState(0);
     const [fileUploadError, setFileUploadError] = useState(false);
     const [formData, setFormData] = useState({});
+    const [updateSucess, setUpdateSuccess] = useState(false)
+    const dispatch = useDispatch()
+
     console.log(filePercent)
     console.log(formData)
     console.log(fileUploadError)
@@ -52,10 +58,37 @@ function Profile() {
         })
     }
 
+    const handleChange = (e)=>{
+        setFormData({...formData, [e.target.id]: e.target.value})
+    }
+
+    const handleSubmit = async(e)=>{
+        e.preventDefault()
+        try {
+          dispatch(updateUserStart())
+          const res = await fetch(`/api/user/update/${currentUser._id}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        if(data.success){
+          dispatch(updateUserSucess(data))
+          setUpdateSuccess(true)
+        } else {
+          dispatch(updateUserFailure(data.message))
+        }
+      } catch (error) {
+          dispatch(updateUserFailure(error.message))
+        }
+    }
+
     return (
       <>
         <h1>Profile page</h1>
-        <form className="flex flex-col gap-4 mt-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
           <input
             onChange={(e) => setFile(e.target.files[0])}
             type="file"
@@ -86,14 +119,16 @@ function Profile() {
               </span>
             )}
           </p>
-          <input type="text" placeholder="username" id="username" />
-          <input type="email" placeholder="email" id="email" />
-          <input type="password" placeholder="password" id="password" />
-          <button>Update</button>
+          <input onChange={handleChange} type="text" placeholder="username" defaultValue={currentUser.username} id="username" />
+          <input onChange={handleChange} type="email" placeholder="email" defaultValue={currentUser.email} id="email" />
+          <input onChange={handleChange}  type="password" placeholder="password" id="password" />
+          <button>{loading ? 'loading....': 'Update'}</button>
         </form>
         <div>
-          <button>Delete Account</button>
+          <button disabled={loading}>Delete Account</button>
           <button>Logout</button>
+          <p>{error?error:""}</p>
+          <p>{updateSucess?"Profile updated sucessfully":""}</p>
         </div>
       </>
     );

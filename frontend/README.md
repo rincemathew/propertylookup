@@ -46,4 +46,5 @@ createing profile page
 upload image into firebases
 user update info api
 verify user if loged in using jwtoken (cookie-parser)
+update user frontend
 4:25:00-
