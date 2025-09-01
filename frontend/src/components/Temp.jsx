@@ -1,7 +1,7 @@
 function Temp() {
 return(
   <>
-<div className="bg-color-primary">
+{/* <div className="bg-color-primary">
         custom1
       </div>
       <div className="bg-color-secondary">
@@ -12,7 +12,7 @@ return(
       </div>
       <div className="bg-color-quaternary">
         custom4
-      </div>
+      </div> */}
 </>
 )
 }

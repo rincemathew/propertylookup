@@ -3,7 +3,7 @@
 function Footer() {
   return (
       <footer className="bg-color-quaternary">
-        <div className="container max-w-[100%] md:max-w-[90%]">
+        <div className="container h-20 max-w-[100%] md:max-w-[90%]">
         Footer
         </div>
       
