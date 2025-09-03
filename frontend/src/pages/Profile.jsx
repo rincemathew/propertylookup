@@ -6,6 +6,7 @@ import { updateUserStart, updateUserSucess, updateUserFailure, deleteUserStart
 , deleteUserSucess, deleteUserFailure, 
 signOutUserStart, signOutUserSucess, signOutUserFailure} from "../redux/user/userSlice"
 import { useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
 
 function Profile() {
     const {currentUser, loading, error} = useSelector((state)=>state.user)
@@ -156,6 +157,7 @@ function Profile() {
           <input onChange={handleChange} type="email" placeholder="email" defaultValue={currentUser.email} id="email" />
           <input onChange={handleChange}  type="password" placeholder="password" id="password" />
           <button disabled={loading}>{loading ? 'loading....': 'Update'}</button>
+          <Link to={"/create-listing"}>Create Listing</Link>
         </form>
         <div>
           <button onClick={handleDeleteUser}>Delete Account</button>

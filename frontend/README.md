@@ -55,5 +55,6 @@ signout api
 signout ui
 
 create listing api route
-
-5:02:00-
+listing page ui
+uploading listing images
+5:42:00-
